@@ -1,0 +1,59 @@
+# Загальні файли та каталоги, які слід ігнорувати
+node_modules/
+dist/
+.env
+
+# Локальні файли конфігурації
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
+.env.local
+
+# Локальні файли авторизації
+.DS_Store
+*.pem
+*.key
+
+# Логи та файли звітів про покриття коду
+coverage/
+*.log
+*.results
+*.ini
+*.json
+*.lock
+
+# Інші тимчасові файли
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# IDE та редактори
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Залежності для розробки та тестування
+/.pnp
+.pnp.js
+
+# Кешовані файли
+/cache
+.npm
+.pnp
+
+# Збережені файли VS Code для Node.js
+.vscode/settings.json
+
+# Власні файли конфігурації
+node_modules/
+.env.local
+.env.*.local
+
+# Кеш Babel
+/dist/
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
