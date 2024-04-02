@@ -5,7 +5,8 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const { checkEmployeeExists, logRequests, errorHandler, isValidDayOfWeek, isValidTimeFormat } = require('./middlewares');
 const pool = require('./db');
-require('./auth'); // Підключення Passport та стратегії аутентифікації
+require('./auth'); 
+const multer = require('multer');
 
 const app = express();
 const port = 3000;
@@ -116,6 +117,28 @@ app.post('/login', passport.authenticate('local', {
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+
+// Налаштування multer для завантаження файлів у папку 'uploads'
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// POST роут для завантаження файлу
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  res.status(200).json({ message: 'File uploaded successfully', filename: req.file.filename });
 });
 
 // Логування запитів
