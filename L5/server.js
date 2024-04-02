@@ -7,6 +7,7 @@ const { checkEmployeeExists, logRequests, errorHandler, isValidDayOfWeek, isVali
 const pool = require('./db');
 require('./auth'); 
 const multer = require('multer');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
@@ -139,6 +140,21 @@ app.post('/upload', upload.single('file'), (req, res) => {
   }
 
   res.status(200).json({ message: 'File uploaded successfully', filename: req.file.filename });
+});
+
+cron.schedule('* * * * *', () => {
+  console.log('Deleting old files every minute');
+  const directory = './uploads';
+  fs.readdir(directory, (err, files) => {
+    if (err) throw err;
+
+    for (const file of files) {
+      fs.unlink(path.join(directory, file), err => {
+        if (err) throw err;
+        console.log(`Deleted ${file}`);
+      });
+    }
+  });
 });
 
 // Логування запитів
